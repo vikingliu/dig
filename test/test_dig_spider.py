@@ -7,7 +7,7 @@ if __name__ == "__main__":
     settings = get_project_settings()
     process = CrawlerProcess(settings)
     # 'followall' is the name of one of the spiders of the project.
-    process.crawl("website", config="config/allsharktankproducts.yaml",
+    process.crawl("website", config="test/allsharktankproducts.yaml",
                   url="https://allsharktankproducts.com/sharktankproducts/season-12-products/",
                   # LOG_LEVEL="INFO"
                   # DOWNLOAD_DELAY=3

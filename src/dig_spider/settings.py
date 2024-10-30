@@ -9,7 +9,7 @@
 
 BOT_NAME = "dig_spider"
 
-#LOG_LEVEL = 'INFO'
+LOG_LEVEL = 'INFO'
 SPIDER_MODULES = ["dig_spider.spiders"]
 NEWSPIDER_MODULE = "dig_spider.spiders"
 

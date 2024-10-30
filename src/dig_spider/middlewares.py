@@ -4,7 +4,7 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 import random
 from scrapy import signals
-
+from dig_spider.spiders.website import WebsiteSpider
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
@@ -71,13 +71,13 @@ class DigEngineDownloaderMiddleware:
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
+        if isinstance(spider,WebsiteSpider):
+            if spider.config.get_headers():
+                request.headers.update(spider.config.get_headers())
 
-        if spider.config.get_headers():
-            request.headers.update(spider.config.get_headers())
-
-        if spider.config.get_proxies():
-            request.meta['proxy'] = random.choice(spider.config.get_proxies())
-            spider.logger.info("Proxy: %s" % request.meta['proxy'])
+            if spider.config.get_proxies():
+                request.meta['proxy'] = random.choice(spider.config.get_proxies())
+                spider.logger.info("Proxy: %s" % request.meta['proxy'])
         # Must either:
         # - return None: continue processing this request
         # - or return a Response object
