@@ -1,0 +1,5 @@
+[console_scripts]
+dig-spider = dig_spider.cmdline:exec
+
+[gui_scripts]
+dig-spider = dig_spider.cmdline:exec

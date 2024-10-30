@@ -110,9 +110,6 @@ class Rule(object):
             logging.error("%s is not work for: %s", self.funcs, value)
             return value
 
-    def _get_func_rule(self, prefix):
-        return self.func.replace(prefix, '')[:-1]
-
 
 class DigString(object):
     def __init__(self, value):

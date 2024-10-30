@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dig-spider"
+version = "0.0.5"
+authors = [
+  { name="viking.liu", email="viking.liu@qq.com" },
+]
+description = "NO CODE!!! Base on Scrapy, crawl websites with simple configuration."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "scrapy==2.11.2",
+  ]
+
+[project.scripts]
+dig-spider = "dig_spider.cmdline:exec"
+
+[project.gui-scripts]
+dig-spider = "dig_spider.cmdline:exec"
+
+[project.urls]
+Homepage = "https://github.com/vikingliu/dig"
+Issues = "https://github.com/vikingliu/dig/issues"
+
+[tool.setuptools.package-data]
+"*" = ["*.cfg"]

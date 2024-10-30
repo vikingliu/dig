@@ -5,7 +5,7 @@ import scrapy
 
 from scrapy.crawler import Crawler
 from scrapy.http import Response
-from dig_engine.extract_engine import ExtractEngine
+from dig_spider.engine.extract import ExtractEngine
 
 
 class WebsiteSpider(scrapy.Spider):

@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: dig-spider
+Version: 0.0.5
+Summary: NO CODE!!! Base on Scrapy, crawl websites with simple configuration.
+Author-email: "viking.liu" <viking.liu@qq.com>
+Project-URL: Homepage, https://github.com/vikingliu/dig
+Project-URL: Issues, https://github.com/vikingliu/dig/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: scrapy==2.11.2

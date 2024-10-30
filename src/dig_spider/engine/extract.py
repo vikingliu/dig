@@ -3,7 +3,7 @@ import logging
 
 from scrapy.http import HtmlResponse
 
-from dig_conf.config import DigConfig
+from dig_spider.engine.config import DigConfig
 
 logger = logging.getLogger(__name__)
 

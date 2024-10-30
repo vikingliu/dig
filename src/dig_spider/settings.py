@@ -1,4 +1,4 @@
-# Scrapy settings for dig_engine project
+# Scrapy settings for dig_spider project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,11 +7,11 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "dig_engine"
+BOT_NAME = "dig_spider"
 
 #LOG_LEVEL = 'INFO'
-SPIDER_MODULES = ["dig_engine.spiders"]
-NEWSPIDER_MODULE = "dig_engine.spiders"
+SPIDER_MODULES = ["dig_spider.spiders"]
+NEWSPIDER_MODULE = "dig_spider.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -47,13 +47,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-   "dig_engine.middlewares.DigEngineSpiderMiddleware": 543,
+   "dig_spider.middlewares.DigEngineSpiderMiddleware": 543,
 }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   "dig_engine.middlewares.DigEngineDownloaderMiddleware": 543,
+   "dig_spider.middlewares.DigEngineDownloaderMiddleware": 543,
 }
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   "dig_engine.pipelines.DigEnginePipeline": 300,
+   "dig_spider.pipelines.DigEnginePipeline": 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
