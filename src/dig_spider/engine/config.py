@@ -2,6 +2,7 @@
 import logging
 import re
 import yaml
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -9,17 +10,17 @@ logger = logging.getLogger(__name__)
 class DigConfig(object):
     def __init__(self, config_file):
         self.config_file = config_file
-        self.config = self.get_yaml_data()
-        self.valid_config()
-        self._parse_config()
+        self.config = self.__get_yaml_data()
+        self.__valid_config()
+        self.__parse_config()
 
-    def get_yaml_data(self):
+    def __get_yaml_data(self):
         with open(self.config_file, encoding='utf-8') as file:
             content = file.read()
             data = yaml.load(content, Loader=yaml.FullLoader)
             return data
 
-    def valid_config(self):
+    def __valid_config(self):
         if self.config is None:
             raise Exception("config is empty")
 
@@ -37,6 +38,12 @@ class DigConfig(object):
             else:
                 raise Exception("page is must in extract config")
 
+    def __parse_config(self):
+        self.pages = []
+        cwd = os.path.dirname(self.config_file)
+        for page_config in self.config.get('extract'):
+            self.pages.append(Page(page_config.get('page'), cwd))
+
     def get_start_urls(self):
         return self.config.get('start_urls')
 
@@ -45,11 +52,6 @@ class DigConfig(object):
 
     def get_proxies(self):
         return self.config.get('proxies', [])
-
-    def _parse_config(self):
-        self.pages = []
-        for page_config in self.config.get('extract'):
-            self.pages.append(Page(page_config.get('page')))
 
     def get_page_config(self, url):
         for page in self.pages:
@@ -63,11 +65,25 @@ class DigConfig(object):
 
 
 class Page(object):
-    def __init__(self, config):
+    def __init__(self, config, cwd):
         self.config = config
-        self._parse_config()
+        self.cwd = cwd
+        self.__parse_config()
 
-    def _parse_config(self):
+    def __parse_config(self):
+        self.page_type = self.config.get('page_type', '')
+        code = self.config.get('code', '')
+        if code:
+            lines = code.split('\n')
+            code = ''
+            for line in lines:
+                line = line.strip(' ') + '\n'
+                code += line
+        self.code = code
+        if 'code_file' in self.config:
+            with open(self.cwd + '/' + self.config.get('code_file'), encoding='utf-8') as file:
+                self.code = file.read() + '\n' + self.code
+
         self.url_patterns = [re.compile(url_pattern) for url_pattern in self.config.get('url_patterns')]
         self.next_page_rule = Rule('next_page_rule',
                                    self.config.get('next_page_rule')) if 'next_page_rule' in self.config else None
@@ -84,16 +100,10 @@ class Rule(object):
             raise Exception("path is empty")
 
     def __parse_path(self, rule):
-        if rule.startswith('css{'):
-            self.path_type = 'css'
-            self.path, self.funcs = self.get_path_funcs(rule, 'css')
-
-        elif rule.startswith('xpath{'):
-            self.path_type = 'xpath'
-            self.path, self.funcs = self.get_path_funcs(rule, 'xpath')
-
-        else:
-            raise Exception("{} path not support".format(rule.split('.')[0]))
+        if '{' not in rule:
+            raise Exception("rule path is invalid")
+        self.path_type, rule = rule.split('{', 1)
+        self.path, self.funcs = rule.split('}')
 
     def get_path_funcs(self, rule, path_type='css'):
         rule = rule.replace(path_type + '{', '')
@@ -126,3 +136,10 @@ class DigString(object):
 
     def split(self, sep=None, maxsplit=-1):
         return [DigString(v) for v in self.value.split(sep, maxsplit)]
+
+    def clear_html(self):
+        '''
+         clear html tag,
+        :return:
+        '''
+        pass

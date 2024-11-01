@@ -29,11 +29,13 @@ class WebsiteSpider(scrapy.Spider):
     def parse(self, response: Response, **kwargs: Any) -> Any:
         items, next_page_url = self.extract.extract_page(response)
         if next_page_url:
+            self.logger.info("next_page: %s", next_page_url)
             yield response.follow(next_page_url, callback=self.parse)
 
         for item in items:
             if 'url' in item:
                 item['url'] = response.urljoin(item['url'])
+                self.logger.info("item page: %s", item['url'])
                 yield scrapy.Request(item['url'], callback=self.parse)
             yield item
 

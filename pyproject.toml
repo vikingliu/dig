@@ -9,7 +9,7 @@ authors = [
   { name="viking.liu", email="viking.liu@qq.com" },
 ]
 description = "NO CODE!!! Base on Scrapy, crawl websites with simple configuration."
-readme = "README.md"
+readme = "README.rst"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -17,7 +17,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "scrapy==2.11.2",
+    "scrapy>=2.11.2",
+    "jsonpath>=0.82.2"
   ]
 
 [project.scripts]

@@ -3,8 +3,6 @@
 # css{a::attr(href)}, css{a::text}
 # xpath{../a/@href}, xpath{../a/text()}
 #
-headers:
-  User-Agent: curl/8.6.1
 
 start_urls:
   - https://allsharktankproducts.com/
@@ -12,20 +10,10 @@ start_urls:
 allowed_domains:
   - allsharktankproducts.com
 
-#proxies:
-#  - http://183.207.95.27:80
-#  - http://111.6.100.99:80
-
-auths:
-  - auth:
-      user: name1
-      pwd: pwd1
-  - auth:
-      user: name2
-      pwd: pwd2
 
 extract:
   - page:
+      page_type: seed_page
       url_patterns:
         - https://allsharktankproducts.com/$
       list_rule: css{#menu-main-product-filters-menu-1>li:first-child .sub-menu li a}
@@ -36,6 +24,7 @@ extract:
         name: css{a::text}
 
   - page:
+      page_type: list_page
       url_patterns:
         - https://allsharktankproducts.com/sharktankproducts/season-\d+-products/
       list_rule: css{div#tdi_15>div}
@@ -48,6 +37,7 @@ extract:
         img: css{div.td-module-thumb a span::attr(style)}.re('url\\((.*)\\)')
 
   - page:
+      page_type: detail_page
       url_patterns:
         - https://allsharktankproducts.com/shark-tank-products
         - https://allsharktankproducts.com/pet-care/
@@ -58,3 +48,10 @@ extract:
         category: css{div.tdb-category a.tdb-entry-category::text}
         session: css{ul.tdb-tags li a::text}
         content: css{div.tdb_single_content div.tdb-block-inner}
+
+#headers:
+#  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+
+#proxies:
+#  - http://183.207.95.27:80
+#  - http://111.6.100.99:80
