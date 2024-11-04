@@ -2,9 +2,8 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 import os
 
-if __name__ == "__main__":
-    cwd = os.path.dirname(__file__)
-
+cwd = os.path.dirname(__file__)
+def run_config():
     os.environ.setdefault("XDG_CONFIG_HOME", cwd + "/../")
     settings = get_project_settings()
     process = CrawlerProcess(settings)
@@ -19,3 +18,24 @@ if __name__ == "__main__":
                   )
     process.start()
     process.stop()
+
+
+def run_text():
+    from dig_spider.engine.extract import ExtractEngine
+    config = cwd + "/config/json_example.yaml"
+    url = 'https://jsonplaceholder.typicode.com/todos/1'
+    text = '''
+    {
+  "userId": 1,
+  "id": 1,
+  "title": "delectus aut autem",
+  "completed": false
+}
+    '''
+    extract = ExtractEngine(config)
+    results, next_page_url = extract.extract_by_text(text, url, 'utf-8')
+    print(results, next_page_url)
+
+if __name__ == "__main__":
+    run_text()
+    # run_config()

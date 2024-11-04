@@ -26,15 +26,15 @@ Install
 
 The quick way:
 
-.. code:: bash
-
     pip install dig-spider
 
 Usage
 =======
+    dig-spider gentemplate dst
 
-.. code:: bash
-    
-    dig-spider crawl website -a config=xxx.yaml
+generate template to target directory (dst)
+modify config_template.yaml and code_template.py
 
-use dig-spider to replace scrapy, website is the default spider, xxx.yaml is the webpage parse rule.
+    dig-spider crawl website -a config=dst/config_template.yaml
+
+use dig-spider to replace scrapy, website is the default spider, dst/config_template.yaml is the webpage parse rule.

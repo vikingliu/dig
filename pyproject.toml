@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dig-spider"
-version = "0.0.5"
+version = "0.0.7"
 authors = [
   { name="viking.liu", email="viking.liu@qq.com" },
 ]
 description = "NO CODE!!! Base on Scrapy, crawl websites with simple configuration."
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -27,9 +27,10 @@ dig-spider = "dig_spider.cmdline:exec"
 [project.gui-scripts]
 dig-spider = "dig_spider.cmdline:exec"
 
+[project.entry-points."scrapy.commands"]
+gentemplate = "dig_spider.cmdline:GenTemplate"
+
 [project.urls]
 Homepage = "https://github.com/vikingliu/dig"
 Issues = "https://github.com/vikingliu/dig/issues"
 
-[tool.setuptools.package-data]
-"*" = ["*.cfg"]

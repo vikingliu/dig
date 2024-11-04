@@ -1,0 +1,78 @@
+# config for crawl and extract
+
+
+start_urls: # the urls start to crawl.
+  - # url 1
+  - # url 2
+
+allowed_domains:
+  - # domain 1
+  - # domain 2
+
+#headers:
+#  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+
+#proxies:
+#  - proxy1
+#  - proxy2
+
+
+# extract rule: path_type{path}.func().func()..
+# - path_type: css, xpath, json, re, code
+# - path: css selector, xpath, jsonpath, re rule, python code
+# - func: replace, split, re
+# example:
+# - css{div a::attr(href)}, css{div a::text}
+# - xpath{../a/@href}, xpath{../a/text()}
+# - json{$.data.title}
+# - re{"(.*)"}
+# - code{}
+extract:
+  - page:
+      page_type: seed_page
+      url_patterns:  # re pattern list, the matched url will be extracted by this page config.
+        - url re pattern 1
+        - url re pattern 2
+      list_rule: # extract list item rule(css, xpath, json, re...)
+      next_page_url: # extract next page url rule(css, xpath, json, re...)
+      item_rules:
+        name1: # extract name1 for each item with rule(css, xpath, json, re...)
+        name2: # extract name2 for each item with rule(css, xpath, json, re...)
+      code_file: code_template.py  # optional
+      code: # optional
+        '  
+        seed_customize(response, results, next_page_url)
+        '
+
+  - page:
+      page_type: list_page
+      url_patterns: # re pattern list, the matched url will be extracted by this page config.
+        - url re pattern 1
+        - url re pattern 2
+      list_rule: # extract list item rule(css, xpath, json, re...)
+      next_page_url: # extract next page url rule(css, xpath, json, re...)
+      item_rules: # if item['url'] and go_detail: the item['url'] will be crawled.
+        name1: # extract name1 for each item with rule(css, xpath, json, re...)
+        name2: # extract name2 for each item with rule(css, xpath, json, re...)
+      code_file: code_template.py
+      code: '
+      list_customize(response, results, next_page_url)
+      '
+
+  - page:
+      page_type: detail_page
+      url_patterns: # re pattern list, the matched url will be extracted by this page config.
+        - url re pattern 1
+        - url re pattern 2
+      list_rule: # extract list item rule(css, xpath, json, re...)
+      next_page_url: # extract next page url rule(css, xpath, json, re...)
+      item_rules:
+        name1: # extract name1 for each item with rule(css, xpath, json, re...)
+        name2: # extract name2 for each item with rule(css, xpath, json, re...)
+      code_file: code_template.py
+      code: '
+      detail_customize(response, results, next_page_url)
+      '
+
+
+

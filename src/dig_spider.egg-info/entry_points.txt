@@ -3,3 +3,6 @@ dig-spider = dig_spider.cmdline:exec
 
 [gui_scripts]
 dig-spider = dig_spider.cmdline:exec
+
+[scrapy.commands]
+gentemplate = dig_spider.cmdline:GenTemplate

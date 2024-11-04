@@ -74,6 +74,7 @@ class Page(object):
         self.page_type = self.config.get('page_type', '')
         code = self.config.get('code', '')
         if code:
+            code = code.replace('\\n', '\n').replace('\\t', '\t')
             lines = code.split('\n')
             code = ''
             for line in lines:

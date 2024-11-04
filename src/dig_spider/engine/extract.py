@@ -3,9 +3,9 @@ import logging
 import jsonpath
 import re
 
+from scrapy.http.response.html import HtmlResponse
 from scrapy.selector import SelectorList
 from dig_spider.engine.config import DigConfig
-
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +13,10 @@ logger = logging.getLogger(__name__)
 class ExtractEngine(object):
     def __init__(self, config_file):
         self.config = DigConfig(config_file)
+
+    def extract_by_text(self, text, url, encoding='utf-8'):
+        response = HtmlResponse(encoding=encoding, url=url, body=text)
+        return self.extract_page(response)
 
     def extract_page(self, response):
         page_config = self.config.get_page_config(response.url)
