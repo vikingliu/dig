@@ -47,7 +47,7 @@ extract:
         title: css{h1.tdb-title-text::text}
         category: css{div.tdb-category a.tdb-entry-category::text}
         session: css{ul.tdb-tags li a::text}
-        content: css{div.tdb_single_content div.tdb-block-inner}
+        content: css{div.tdb_single_content div.tdb-block-inner}.to_markdown()
 
 #headers:
 #  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36

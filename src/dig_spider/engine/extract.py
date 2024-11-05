@@ -1,7 +1,6 @@
 # coding=utf-8
 import logging
 import jsonpath
-import re
 
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector import SelectorList

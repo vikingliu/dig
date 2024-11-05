@@ -5,4 +5,5 @@ dig-spider = dig_spider.cmdline:exec
 dig-spider = dig_spider.cmdline:exec
 
 [scrapy.commands]
+genexamples = dig_spider.cmdline:GenExample
 gentemplate = dig_spider.cmdline:GenTemplate

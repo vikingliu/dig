@@ -138,9 +138,10 @@ class DigString(object):
     def split(self, sep=None, maxsplit=-1):
         return [DigString(v) for v in self.value.split(sep, maxsplit)]
 
-    def clear_html(self):
+    def to_markdown(self):
+        import html2text
         '''
-         clear html tag,
+         clear html tag
         :return:
         '''
-        pass
+        return DigString(html2text.HTML2Text().handle(self.value))

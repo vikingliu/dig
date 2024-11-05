@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dig-spider"
-version = "0.0.7"
+version = "0.0.9"
 authors = [
   { name="viking.liu", email="viking.liu@qq.com" },
 ]
@@ -29,8 +29,14 @@ dig-spider = "dig_spider.cmdline:exec"
 
 [project.entry-points."scrapy.commands"]
 gentemplate = "dig_spider.cmdline:GenTemplate"
+genexamples = "dig_spider.cmdline:GenExample"
+
 
 [project.urls]
 Homepage = "https://github.com/vikingliu/dig"
 Issues = "https://github.com/vikingliu/dig/issues"
 
+
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.sh", "*.cfg"]

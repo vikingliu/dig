@@ -20,6 +20,3 @@ extract:
             \t print(result['userid'])\n
         process(response, results, next_page_url)\n
         "
-
-headers:
-  Cookie: acw_tc=1a0c640917303628004738124e00cac69e02c33201a44b20f156f0a6000adb
