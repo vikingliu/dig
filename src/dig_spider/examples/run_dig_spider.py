@@ -25,10 +25,11 @@ class DownloaderMiddleware(DigEngineDownloaderMiddleware):
 
 def run_config():
     crawl_pages(
-        config=cwd + "/config/css_example.yaml",
+        # config=cwd + "/config/css_example.yaml",
         # start_urls=["https://allsharktankproducts.com/sharktankproducts/season-12-products/"],
         start_urls=["https://allsharktankproducts.com/shark-tank-products-arts/da-vinci-eye-ar-drawing-tools/"],
         # start_urls = "a.txt",
+        extract_link=True,
         ITEM_PIPELINES={ItemPipeline: 200},
         SPIDER_MIDDLEWARES={SpiderMiddleware: 200},
         DOWNLOADER_MIDDLEWARES={DownloaderMiddleware: 200},

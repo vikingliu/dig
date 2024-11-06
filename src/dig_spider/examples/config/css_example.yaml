@@ -14,6 +14,8 @@ extract:
       item_rules:
         url: css{a::attr(href)}
         name: css{a::text}
+      link_params: #https://docs.scrapy.org/en/latest/topics/link-extractors.html
+        restrict_css: #menu-main-product-filters-menu-1>li:first-child .sub-menu li a
 
   - page:
       page_type: list_page
@@ -31,7 +33,7 @@ extract:
   - page:
       page_type: detail_page
       url_patterns:
-        - https://allsharktankproducts.com/shark-tank-products
+        - https://allsharktankproducts.com/shark-tank-
         - https://allsharktankproducts.com/pet-care/
         - https://allsharktankproducts.com/apps/
         - https://allsharktankproducts.com/service/

@@ -5,6 +5,7 @@ import jsonpath
 from scrapy.http.response.html import HtmlResponse
 from scrapy.selector import SelectorList
 from dig_spider.engine.config import DigConfig
+from scrapy.linkextractors import LinkExtractor
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +17,14 @@ class ExtractEngine(object):
     def extract_by_text(self, text, url, encoding='utf-8'):
         response = HtmlResponse(encoding=encoding, url=url, body=text)
         return self.extract_page(response)
+
+    def extract_links(self, response):
+        page_config = self.config.get_page_config(response.url)
+        link_params = page_config.link_params if page_config else {}
+        if 'allowed_domains' not in link_params:
+            link_params['allow_domains'] = self.config.get_allowed_domains()
+        link_extractor = LinkExtractor(**page_config.link_params)
+        return link_extractor.extract_links(response)
 
     def extract_page(self, response):
         page_config = self.config.get_page_config(response.url)

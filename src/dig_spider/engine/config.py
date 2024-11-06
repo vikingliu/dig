@@ -87,6 +87,7 @@ class Page(object):
                                    self.config.get('next_page_rule')) if 'next_page_rule' in self.config else None
         self.list_rule = Rule('list_rule', self.config.get('list_rule')) if 'list_rule' in self.config else None
         self.item_rules = {key: Rule(key, value) for key, value in self.config.get('item_rules', {}).items()}
+        self.link_params = self.config.get('link_params', {})
 
 
 class Rule(object):

@@ -61,6 +61,12 @@ extract:
       item_rules:
         name1: # extract name1 for each item with rule(css, xpath, json, re...)
         name2: # extract name2 for each item with rule(css, xpath, json, re...)
+      link_params: #https://docs.scrapy.org/en/latest/topics/link-extractors.html
+        restrict_css: <css selector>
+        allow_domains:
+          - domain1
+          - domain2
+
       code_file: code_template.py
       code: '
       detail_customize(response, results, next_page_url)
