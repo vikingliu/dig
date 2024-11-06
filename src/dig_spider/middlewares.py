@@ -71,14 +71,6 @@ class DigEngineDownloaderMiddleware:
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
-        if isinstance(spider, WebsiteSpider) and spider.config:
-            if spider.config.get_headers():
-                request.headers.update(spider.config.get_headers())
-                spider.logger.debug("Update spider headers: %s" % spider.config.get_headers())
-
-            if spider.config.get_proxies():
-                request.meta['proxy'] = random.choice(spider.config.get_proxies())
-                spider.logger.info("Proxy: %s" % request.meta['proxy'])
         # Must either:
         # - return None: continue processing this request
         # - or return a Response object

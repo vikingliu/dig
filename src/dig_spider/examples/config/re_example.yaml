@@ -20,3 +20,14 @@ extract:
           \t print(result['userid'])\n
       process(response, results, next_page_url)\n
       "
+
+settings: # replace default settings  https://docs.scrapy.org/en/latest/topics/settings.html
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+  LOG_LEVEL: INFO
+  DOWNLOAD_DELAY: 1
+#  PROXIES: # add by dig-spider
+#    - http://1
+#    - http://2
+  DEFAULT_REQUEST_HEADERS:
+    Accept": text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    Accept-Language: en

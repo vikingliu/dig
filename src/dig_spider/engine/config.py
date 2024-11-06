@@ -50,8 +50,8 @@ class DigConfig(object):
     def get_allowed_domains(self):
         return self.config.get('allowed_domains', [])
 
-    def get_proxies(self):
-        return self.config.get('proxies', [])
+    def get_settings(self):
+        return self.config.get('settings', {})
 
     def get_page_config(self, url):
         for page in self.pages:
@@ -59,9 +59,6 @@ class DigConfig(object):
                 if re.match(url_pattern, url):
                     return page
         return None
-
-    def get_headers(self):
-        return self.config.get("headers", None)
 
 
 class Page(object):

@@ -1,7 +1,8 @@
 # coding=utf-8
 import logging
 import scrapy
-from typing import Any
+import random
+from typing import Any, Iterable
 from scrapy.crawler import Crawler
 from scrapy.http import Response
 from dig_spider.engine.extract import ExtractEngine
@@ -37,26 +38,51 @@ class WebsiteSpider(scrapy.Spider):
             items, next_page_url = self.extract.extract_page(response)
             if next_page_url and self.paging:
                 self.logger.info("next_page_url: %s", next_page_url)
-                yield response.follow(next_page_url, callback=self.parse)
+                proxy = self.get_proxy()
+                meta = {'proxy': proxy} if proxy else {}
+                yield response.follow(next_page_url, meta=meta, callback=self.parse)
 
             for item in items:
                 if 'url' in item and self.go_detail:
                     item['url'] = response.urljoin(item['url'])
                     self.logger.info("item page url: %s", item['url'])
-                    yield scrapy.Request(item['url'], callback=self.parse)
+                    proxy = self.get_proxy()
+                    meta = {'proxy': proxy} if proxy else {}
+                    yield scrapy.Request(item['url'], meta=meta, callback=self.parse)
                 yield item
+
+    def start_requests(self) -> Iterable[scrapy.Request]:
+        if not self.start_urls and hasattr(self, "start_url"):
+            raise AttributeError(
+                "Crawling could not start: 'start_urls' not found "
+                "or empty (but found 'start_url' attribute instead, "
+                "did you miss an 's'?)"
+            )
+        for url in self.start_urls:
+            proxy = self.get_proxy()
+            meta = {'proxy': proxy} if proxy else {}
+            yield scrapy.Request(url, meta=meta, dont_filter=True)
+
+    def get_proxy(self):
+        if 'PROXIES' in self.settings:
+            proxy = random.choice(self.settings['PROXIES'])
+            self.logger.info("Set Proxy: %s" % proxy)
+            return proxy
+        return None
 
     @classmethod
     def from_crawler(cls, crawler: Crawler, *args: Any, **kwargs: Any):
+        config_file = kwargs.get('config', '')
+        if config_file:
+            cls.extract = ExtractEngine(config_file)
+            settings = cls.extract.config.get_settings()
+            cls.custom_settings.update(settings)
+        else:
+            logger.error("No config, please set -a config=xxx")
+
+        cls.custom_settings.update(kwargs)
         spider = super().from_crawler(crawler, *args, **kwargs)
-        if kwargs:
-            cls.custom_settings.update(kwargs)
+        if not spider.settings.frozen:
             cls.update_settings(spider.settings)
             logger.info("config custom settings: %s", cls.custom_settings)
-            config_file = kwargs.get('config', '')
-            if config_file:
-                cls.extract = ExtractEngine(config_file)
-            else:
-                logger.error("No config, please set -a config=xxx")
-
         return spider

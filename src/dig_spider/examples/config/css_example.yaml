@@ -1,9 +1,3 @@
-# config for crawl and extract
-# extract rule css{} or xpath{}
-# css{a::attr(href)}, css{a::text}
-# xpath{../a/@href}, xpath{../a/text()}
-#
-
 start_urls:
   - https://allsharktankproducts.com/
 
@@ -18,8 +12,6 @@ extract:
         - https://allsharktankproducts.com/$
       list_rule: css{#menu-main-product-filters-menu-1>li:first-child .sub-menu li a}
       item_rules:
-        # url: xpath{../a/@href}
-        # name: xpath{../a/text()}
         url: css{a::attr(href)}
         name: css{a::text}
 
@@ -49,9 +41,17 @@ extract:
         session: css{ul.tdb-tags li a::text}
         content: css{div.tdb_single_content div.tdb-block-inner}.to_markdown()
 
-#headers:
-#  User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
 
-#proxies:
-#  - http://183.207.95.27:80
-#  - http://111.6.100.99:80
+
+settings: # replace default settings  https://docs.scrapy.org/en/latest/topics/settings.html
+  USER_AGENT: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36
+  LOG_LEVEL: INFO
+  DOWNLOAD_DELAY: 1
+#  PROXIES: # add by dig-spider
+#    - http://1
+#    - http://2
+  DEFAULT_REQUEST_HEADERS:
+    Accept": text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    Accept-Language: en
+
+
