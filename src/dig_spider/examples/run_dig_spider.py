@@ -49,7 +49,8 @@ def run_text():
   "completed": false
     }
     '''
-    print(extract_page(config, url, 'utf-8', text))
+    print(extract_page(config, text, 'utf-8', url))
+
 
 def run_github():
     crawl_pages(
@@ -61,6 +62,7 @@ def run_github():
         LOG_LEVEL="DEBUG",
         # DOWNLOAD_DELAY=3
     )
+
 
 if __name__ == "__main__":
     # run_text()

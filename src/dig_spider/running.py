@@ -16,5 +16,5 @@ def crawl_pages(spider='website', *args: Any, **kwargs: Any):
     process.stop()
 
 
-def extract_page(config, url, encoding, html):
+def extract_page(config, html, encoding='utf-8', url=None):
     return ExtractEngine(config).extract_by_text(html, url, encoding)

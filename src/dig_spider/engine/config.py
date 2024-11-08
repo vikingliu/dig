@@ -87,13 +87,17 @@ class Rule(object):
             raise Exception("path is empty")
 
     def __parse_path(self, rule):
-        if '{' in rule:
-            self.path_type, rule = rule.split('{', 1)
-            self.path, self.funcs = rule.split('}', 1)
-        else:
-            self.path_type = 'text'
-            self.path = rule
-            self.funcs = ''
+        result = re.findall('^\s*([a-z]+){(.*?)}(.*)$', rule)
+        self.funcs = ''
+        self.params = ''
+        self.path_type = 'text'
+        if len(result) == 1:
+            if len(result[0]) == 3:
+                self.path_type, self.path, self.funcs = result[0]
+            if len(result[0]) == 2:
+                self.path_type, self.path = result[0]
+            if len(result[0]) == 1:
+                self.path = result[0]
 
     def process_funcs(self, value):
         try:
