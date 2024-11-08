@@ -1,5 +1,4 @@
 # coding=utf-8
-import itertools
 import logging
 import scrapy
 import random
@@ -18,6 +17,7 @@ class WebsiteSpider(scrapy.Spider):
     custom_settings = {}
     extract_engine = None
     start_urls = []
+    proxies = []
     allowed_domains = []
 
     def __init__(self, *args: Any, **kwargs: Any):
@@ -25,7 +25,6 @@ class WebsiteSpider(scrapy.Spider):
         self.paging = kwargs.get('paging', True)
         self.go_detail = kwargs.get('go_detail', True)
         self.extract_link = kwargs.get('extract_link', False)
-        self.proxies = self.extract_engine.config.get_proxies() if self.extract_engine else []
         self.url_cache = {}
 
     def parse(self, response: Response, **kwargs: Any) -> Any:
@@ -106,7 +105,7 @@ class WebsiteSpider(scrapy.Spider):
             cls.extract_engine = ExtractEngine(config_file)
             cls.custom_settings.update(cls.extract_engine.config.get_settings())
         else:
-            logger.error("No config, please set -a config=xxx")
+            logger.error("No config, please set -a config=xxx or -s config=xxx")
 
         urls = kwargs.get('start_urls', [])
         if type(urls) == str:  # url list file
@@ -116,6 +115,7 @@ class WebsiteSpider(scrapy.Spider):
         if cls.extract_engine and cls.extract_engine.config:
             urls = cls.extract_engine.config.get_start_urls() if len(urls) == 0 else urls
             cls.allowed_domains = cls.extract_engine.config.get_allowed_domains()
+            cls.proxies = cls.extract_engine.config.get_proxies()
 
         cls.start_urls = urls
         if not cls.allowed_domains:
@@ -124,8 +124,11 @@ class WebsiteSpider(scrapy.Spider):
 
     @classmethod
     def from_crawler(cls, crawler: Crawler, *args: Any, **kwargs: Any):
-        cls.init_spider(**kwargs)
         spider = super().from_crawler(crawler, *args, **kwargs)
+        if 'config' not in kwargs:
+            config_file= spider.settings.get('config', '')
+            kwargs['config'] = config_file
+        cls.init_spider(**kwargs)
         if not spider.settings.frozen:
             cls.update_settings(spider.settings)
             logger.info("config custom settings: %s", cls.custom_settings)

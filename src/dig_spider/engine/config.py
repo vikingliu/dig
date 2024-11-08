@@ -50,7 +50,7 @@ class DigConfig(object):
         return self.config.get('settings', {})
 
     def get_proxies(self):
-        return self.config.get('proxies', {})
+        return self.config.get('proxies', [])
 
     def get_page_extract_config(self, url):
         for page in self.pages:

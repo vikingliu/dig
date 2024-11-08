@@ -4,6 +4,7 @@ rm -rf dist
 python3 -m build
 
 pip3 uninstall -y dig-spider
+pip3 uninstall -y scrapy
 pip3 install dist/*whl
 
 # upload
