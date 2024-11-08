@@ -11,37 +11,15 @@ class DigConfig(object):
     def __init__(self, config_file):
         self.config_file = config_file
         self.config = self.__get_yaml_data()
-        # self.__valid_config()
-        self.__parse_config()
+        self.code = self.__get_code()
+        self.pages = self.__get_pages()
+        self.login = self.__get_login()
 
     def __get_yaml_data(self):
         with open(self.config_file, encoding='utf-8') as file:
             content = file.read()
             data = yaml.load(content, Loader=yaml.FullLoader)
             return data
-
-    def __valid_config(self):
-        if self.config is None:
-            raise Exception("config is empty")
-
-        if 'start_urls' not in self.config:
-            raise Exception("start_urls is not in config")
-
-        if 'extract' not in self.config:
-            raise Exception("extract is not in config")
-
-        for item in self.config.get('extract'):
-            if "page" in item:
-                for key in ["url_patterns", "item_rules"]:
-                    if key not in item.get("page"):
-                        raise Exception("{} is must in page config".format(key))
-            else:
-                raise Exception("page is must in extract config")
-
-    def __parse_config(self):
-        self.code = self.__get_code()
-        self.pages = self.__get_pages()
-        self.login = self.__get_login()
 
     def __get_pages(self):
         pages = []
@@ -71,7 +49,10 @@ class DigConfig(object):
     def get_settings(self):
         return self.config.get('settings', {})
 
-    def get_page_config(self, url):
+    def get_proxies(self):
+        return self.config.get('proxies', {})
+
+    def get_page_extract_config(self, url):
         for page in self.pages:
             for url_pattern in page.url_patterns:
                 if re.match(url_pattern, url):
@@ -140,6 +121,9 @@ class DigString(object):
     def split(self, sep=None, maxsplit=-1):
         return [DigString(v) for v in self.value.split(sep, maxsplit)]
 
+    def strip(self, *args, **kwargs):
+        return DigString(self.value.strip(*args, **kwargs))
+
     def to_markdown(self):
         import html2text
         '''
@@ -158,7 +142,7 @@ class Login(object):
     def __parse_config(self):
         self.url = self.config.get('url', '')
         self.load_page = self.config.get('load_page', True)
-        self.form_rule = Rule('form_rule', self.config.get('form_rule')) if 'form_rule' in self.config else None
+        self.params = self.config.get('params', {})
         self.code += '\n' + process_code(self.config.get('code', ''))
         self.form_data = {key: Rule(key, value) for key, value in self.config.get('form_data', {}).items()}
 

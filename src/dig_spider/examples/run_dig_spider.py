@@ -26,8 +26,8 @@ class DownloaderMiddleware(DigEngineDownloaderMiddleware):
 def run_config():
     crawl_pages(
         config=cwd + "/config/css_example.yaml",
-        # start_urls=["https://allsharktankproducts.com/sharktankproducts/season-12-products/"],
-        start_urls=["https://allsharktankproducts.com/shark-tank-products-arts/da-vinci-eye-ar-drawing-tools/"],
+        start_urls=["https://allsharktankproducts.com/sharktankproducts/season-12-products/"],
+        # start_urls=["https://allsharktankproducts.com/shark-tank-products-arts/da-vinci-eye-ar-drawing-tools/"],
         # start_urls = "a.txt",
         # extract_link=True,
         ITEM_PIPELINES={ItemPipeline: 200},
@@ -64,5 +64,5 @@ def run_github():
 
 if __name__ == "__main__":
     # run_text()
-    # run_config()
-    run_github()
+    run_config()
+    # run_github()
