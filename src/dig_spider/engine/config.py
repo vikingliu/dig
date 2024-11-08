@@ -11,7 +11,7 @@ class DigConfig(object):
     def __init__(self, config_file):
         self.config_file = config_file
         self.config = self.__get_yaml_data()
-        self.__valid_config()
+        # self.__valid_config()
         self.__parse_config()
 
     def __get_yaml_data(self):
@@ -39,10 +39,28 @@ class DigConfig(object):
                 raise Exception("page is must in extract config")
 
     def __parse_config(self):
-        self.pages = []
-        cwd = os.path.dirname(self.config_file)
-        for page_config in self.config.get('extract'):
-            self.pages.append(Page(page_config.get('page'), cwd))
+        self.code = self.__get_code()
+        self.pages = self.__get_pages()
+        self.login = self.__get_login()
+
+    def __get_pages(self):
+        pages = []
+        for page_config in self.config.get('extract', []):
+            pages.append(Page(page_config.get('page'), self.code))
+        return pages
+
+    def __get_code(self):
+        code = ''
+        if 'code_file' in self.config:
+            cwd = os.path.dirname(self.config_file)
+            with open(cwd + '/' + self.config.get('code_file'), encoding='utf-8') as file:
+                code = file.read()
+        return code
+
+    def __get_login(self):
+        if 'login' in self.config:
+            return Login(self.config.get('login'), self.code)
+        return None
 
     def get_start_urls(self):
         return self.config.get('start_urls')
@@ -62,25 +80,14 @@ class DigConfig(object):
 
 
 class Page(object):
-    def __init__(self, config, cwd):
+    def __init__(self, config, code):
         self.config = config
-        self.cwd = cwd
+        self.code = code
         self.__parse_config()
 
     def __parse_config(self):
         self.page_type = self.config.get('page_type', '')
-        code = self.config.get('code', '')
-        if code:
-            code = code.replace('\\n', '\n').replace('\\t', '\t')
-            lines = code.split('\n')
-            code = ''
-            for line in lines:
-                line = line.strip(' ') + '\n'
-                code += line
-        self.code = code
-        if 'code_file' in self.config:
-            with open(self.cwd + '/' + self.config.get('code_file'), encoding='utf-8') as file:
-                self.code = file.read() + '\n' + self.code
+        self.code += '\n' + process_code(self.config.get('code', ''))
 
         self.url_patterns = [re.compile(url_pattern) for url_pattern in self.config.get('url_patterns')]
         self.next_page_rule = Rule('next_page_rule',
@@ -99,18 +106,15 @@ class Rule(object):
             raise Exception("path is empty")
 
     def __parse_path(self, rule):
-        if '{' not in rule:
-            raise Exception("rule path is invalid")
-        self.path_type, rule = rule.split('{', 1)
-        self.path, self.funcs = rule.split('}')
-
-    def get_path_funcs(self, rule, path_type='css'):
-        rule = rule.replace(path_type + '{', '')
-        path, funcs = rule.split('}')
-        return path, funcs
+        if '{' in rule:
+            self.path_type, rule = rule.split('{', 1)
+            self.path, self.funcs = rule.split('}', 1)
+        else:
+            self.path_type = 'text'
+            self.path = rule
+            self.funcs = ''
 
     def process_funcs(self, value):
-
         try:
             digstr = DigString(value)
             digstr = eval('digstr' + self.funcs)
@@ -143,3 +147,28 @@ class DigString(object):
         :return:
         '''
         return DigString(html2text.HTML2Text().handle(self.value))
+
+
+class Login(object):
+    def __init__(self, config, code):
+        self.config = config
+        self.code = code
+        self.__parse_config()
+
+    def __parse_config(self):
+        self.url = self.config.get('url', '')
+        self.load_page = self.config.get('load_page', True)
+        self.form_rule = Rule('form_rule', self.config.get('form_rule')) if 'form_rule' in self.config else None
+        self.code += '\n' + process_code(self.config.get('code', ''))
+        self.form_data = {key: Rule(key, value) for key, value in self.config.get('form_data', {}).items()}
+
+
+def process_code(code):
+    if code:
+        code = code.replace('\\n', '\n').replace('\\t', '\t')
+        lines = code.split('\n')
+        code = ''
+        for line in lines:
+            line = line.strip(' ') + '\n'
+            code += line
+    return code

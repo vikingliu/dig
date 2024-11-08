@@ -1,6 +1,7 @@
 LICENSE
 README.md
 pyproject.toml
+setup.sh
 src/dig_spider/__init__.py
 src/dig_spider/cmdline.py
 src/dig_spider/middlewares.py
@@ -20,6 +21,7 @@ src/dig_spider/engine/extract.py
 src/dig_spider/examples/__init__.py
 src/dig_spider/examples/run_dig_spider.py
 src/dig_spider/examples/config/css_example.yaml
+src/dig_spider/examples/config/github.yaml
 src/dig_spider/examples/config/json.py
 src/dig_spider/examples/config/json_example.yaml
 src/dig_spider/examples/config/re_example.yaml

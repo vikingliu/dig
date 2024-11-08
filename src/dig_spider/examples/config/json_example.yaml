@@ -4,6 +4,8 @@ start_urls:
 allowed_domains:
   - typicode.com
 
+code_file: json.py
+
 extract:
   - page:
       page_type: feed
@@ -14,7 +16,6 @@ extract:
         id: json{$.id}
         title: json{$.title}
         completed: json{$.completed}
-      code_file: json.py
       code: "
         for result in results: \n
             \t print(result['userid'])\n

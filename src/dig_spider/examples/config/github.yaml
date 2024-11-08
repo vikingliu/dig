@@ -1,0 +1,24 @@
+start_urls:
+  - https://github.com/settings/profile
+
+allowed_domains:
+  - github.com
+
+extract:
+  - page:
+      url_patterns:
+        - https://github.com/settings/profile
+      item_rules:
+        name: xpath{//*[@id="settings-header"]/a/text()}
+
+#settings:
+#  COOKIES_ENABLED: False
+#  DEFAULT_REQUEST_HEADERS:
+#    cookie: _octo=GH1.1.117762440.1717569300; _device_id=2f168c0dbce3eb9baa79c67ea9f05c3f; preferred_color_mode=light; tz=Asia%2FShanghai; tz=Asia%2FShanghai; color_mode=%7B%22color_mode%22%3A%22auto%22%2C%22light_theme%22%3A%7B%22name%22%3A%22light%22%2C%22color_mode%22%3A%22light%22%7D%2C%22dark_theme%22%3A%7B%22name%22%3A%22dark%22%2C%22color_mode%22%3A%22dark%22%7D%7D; ___rl__test__cookies=1730967290206; OUTFOX_SEARCH_USER_ID_NCOO=818758234.2393339; saved_user_sessions=5032155%3AumdTLJvPp6Sw-02HXSugQjpH8_RXiDA7XnYLoR8RMyizoxg1; user_session=umdTLJvPp6Sw-02HXSugQjpH8_RXiDA7XnYLoR8RMyizoxg1; __Host-user_session_same_site=umdTLJvPp6Sw-02HXSugQjpH8_RXiDA7XnYLoR8RMyizoxg1; logged_in=yes; dotcom_user=vikingliu; _gh_sess=IDU5Nf8j7ymn10ixU7qdZ0JmSexbdD2MpnvYhxTyMGUXVSJ8BNOcU5pEdpyXesHVv5fNH9spgmw3oX3RZaG3UjnlGzjp%2BVJcw8blBGxsIV1nKjgkorKU2%2BhEYoqkVhf2HEzgUnyXP5cUh3s%2FyZC34fTlOXvdcy4KIYCBjfO%2BWA%2BJEBACACoEZNReJVoGILMhF2SWubQNe8Fh%2FFImDzwmHiEURpKhoEAWZeAf%2FkTeRfLKb5unZBMxX%2BWlsonzmTyRZc0uKiG5xkNK4qKQAkPNdAIolkLzlV407QsDeZ0tTIebtUtJndCqaBrE9rxEyfTx6z8vSTTtdWJtUBo8P0Yry00jtM4trEOIbwQZyKgUeeV6mfuGv17SOrzZbgaKezUUevexxTD1B%2BRctvyilvO77QHjRba3MjLofZCUKW3wVzdA%2B0vCtlLGnBGEI6fmXxA1zQOeUiNSSfRb7UR0mLPx%2FaLv73payyHm1GE7Ba5Knak5XyvcKeHrVle%2Bq6KRjTz1RAAW4mXPZ7Az2PcxIpWRHU4zFUzGrTq6--Xp3KPl3mC9gU4Q6R--VjWdDhqYOV0MSfudbExgNw%3D%3D
+login:
+  url: https://github.com/login
+  form_rule: css{div.auth-form-body > form}
+  load_page: True
+  form_data:
+    login: viking.liu@qq.com
+    password: '*******'

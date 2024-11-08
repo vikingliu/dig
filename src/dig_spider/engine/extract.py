@@ -62,6 +62,8 @@ class ExtractEngine(object):
             return jsonpath.jsonpath(response, rule.path)[0]
         elif rule.path_type == 'code' and rule.path:
             return eval(rule.path)
+        elif rule.path_type == 'text' and rule.path:
+            return rule.path
         logger.error("name: %s, path: %s not work for url: %s", rule.name, rule.path, response.url)
         return None
 

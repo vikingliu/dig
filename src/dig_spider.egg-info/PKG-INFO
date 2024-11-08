@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: dig-spider
-Version: 0.0.9
+Version: 0.1.0
 Summary: NO CODE!!! Base on Scrapy, crawl websites with simple configuration.
 Author-email: "viking.liu" <viking.liu@qq.com>
 Project-URL: Homepage, https://github.com/vikingliu/dig

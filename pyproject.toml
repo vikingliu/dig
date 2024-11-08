@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dig-spider"
-version = "0.0.9"
+version = "0.1.0"
 authors = [
   { name="viking.liu", email="viking.liu@qq.com" },
 ]
@@ -37,6 +37,9 @@ Homepage = "https://github.com/vikingliu/dig"
 Issues = "https://github.com/vikingliu/dig/issues"
 
 
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.setuptools.package-data]
 "*" = ["*.yaml", "*.sh", "*.cfg"]
+

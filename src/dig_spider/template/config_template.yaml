@@ -9,6 +9,8 @@ allowed_domains:
   - # domain 1
   - # domain 2
 
+code_file: code_template.py
+
 # extract rule: path_type{path}.func().func()..
 # - path_type: css, xpath, json, re, code
 # - path: css selector, xpath, jsonpath, re rule, python code
@@ -30,7 +32,6 @@ extract:
       item_rules:
         name1: # extract name1 for each item with rule(css, xpath, json, re...)
         name2: # extract name2 for each item with rule(css, xpath, json, re...)
-      code_file: code_template.py  # optional
       code: # optional
         '  
         seed_customize(response, results, next_page_url)
@@ -46,7 +47,6 @@ extract:
       item_rules: # if item['url'] and go_detail: the item['url'] will be crawled.
         name1: # extract name1 for each item with rule(css, xpath, json, re...)
         name2: # extract name2 for each item with rule(css, xpath, json, re...)
-      code_file: code_template.py
       code: '
       list_customize(response, results, next_page_url)
       '
@@ -66,8 +66,6 @@ extract:
         allow_domains:
           - domain1
           - domain2
-
-      code_file: code_template.py
       code: '
       detail_customize(response, results, next_page_url)
       '
@@ -83,3 +81,27 @@ settings: # replace default settings  https://docs.scrapy.org/en/latest/topics/s
   DEFAULT_REQUEST_HEADERS:
     Accept": text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
     Accept-Language: en
+
+
+# login method 1: login through login page form
+#login:
+#  url: login page
+#  load_page: True # default True
+#  form_rule: css{xxx} # find form in page, if there is only one form in page, may not provide form rule
+#  form_data:
+#    name: xxx
+#    password: xxx
+
+# login method 2: login through login api
+#login:
+#  url: login api
+#  load_page: False
+#  form_data:
+#    name: xxx
+#    password: xxx
+
+# login method 3: login through cookie
+#settings:
+#  COOKIES_ENABLED: False
+#  DEFAULT_REQUEST_HEADERS:
+#    cookie: xxxx
