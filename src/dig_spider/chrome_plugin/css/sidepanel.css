@@ -1,0 +1,68 @@
+.pe-block {
+    border: 1px;
+    border-color: black;
+    border-style: double;
+    margin: 15px 2px;
+    padding: 5px;
+    width: calc(100% - 10px);
+    max-width: 600px;
+    min-width: 320px;
+}
+
+.pe-block-center {
+    text-align: center;
+}
+
+.pe-row {
+    max-width: 500px;
+    min-width: 320px;
+}
+
+.pe-name {
+    width: 150px;
+    text-align: left;
+    padding: 5px;
+}
+
+.pe-space {
+    width: 58px;
+    display: inline-block;
+}
+
+.pe-type {
+    width: 80px;
+    display: inline-block;
+    padding: 5px 0;
+}
+
+.pe-page-type {
+    width: 100px;
+    padding: 5px;
+}
+
+.pe-path, .pe-funcs {
+    width: calc(100% - 104px);
+    min-width: 180px;
+    padding: 5px;
+    margin: 5px 2px;
+}
+
+#url_patterns {
+    width: calc(100% - 8px);
+    height: auto;
+    white-space: nowrap;
+}
+
+.pe-remove-rule {
+    color: red;
+    padding: 5px;
+}
+
+.pe-add-rule {
+    color: green;
+    text-align: right;
+}
+
+#downloadfile{
+    display: none;
+}

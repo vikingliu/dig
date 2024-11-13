@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <title>Page Extractor</title>
+</head>
+<body>
+<h1>Page Extract Rule Config</h1>
+<div class="pe-block">
+    <span>Page Type: </span>
+    <select class="pe-page-type">
+        <option>List Page</option>
+        <option>Detail Page</option>
+    </select>
+</div>
+
+<div class="pe-block">
+    <div class="pe-row">
+        <span class="pe-name">Url Patterns: </span>
+    </div>
+    <div class="pe-row">
+        <textarea name="text" id="url_patterns"></textarea>
+    </div>
+</div>
+<div class="pe-block" id="list_rule">
+    <div class="pe-row">
+        <span class="pe-name">List Rule: </span>
+    </div>
+    <div class="pe-row">
+        <select class="pe-type">
+            <option>xpath</option>
+            <option>css</option>
+            <option>jpath</option>
+            <option>re</option>
+        </select>
+        <input class="pe-path"/>
+    </div>
+</div>
+<div class="pe-block" id="next_page_rule">
+    <div class="pe-row">
+        <span class="pe-name">Next Page Rule: </span>
+    </div>
+    <div class="pe-row">
+        <select class="pe-type">
+            <option>xpath</option>
+            <option>css</option>
+            <option>jpath</option>
+            <option>re</option>
+        </select>
+        <input class="pe-path"/>
+    </div>
+    <div class="pe-row">
+        <label class="pe-type">funcs:</label>
+        <input class="pe-funcs"/>
+    </div>
+</div>
+
+<div class="pe-block" id="item_rules">
+    <div class="pe-row">
+        <span>Item Rules</span>
+    </div>
+    <div class="item-rules">
+        <div class="pe-block item-rule">
+            <div class="pe-row">
+                <div class="pe-type">item name</div>
+                <input class="pe-name"/>
+                <input type="button" class="pe-remove-rule" value="remove"/>
+            </div>
+            <div class="pe-row">
+                <select class="pe-type">
+                    <option>xpath</option>
+                    <option>css</option>
+                    <option>jpath</option>
+                    <option>re</option>
+                </select>
+                <input class="pe-path"/>
+            </div>
+            <div class="pe-row">
+                <div class="pe-type">funcs</div>
+                <input class="pe-funcs"/>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="pe-row">
+        <input type="button" class="pe-add-rule" value="add new item rule"/>
+    </div>
+</div>
+
+<div class="pe-block pe-block-center">
+    <button id="show_extract_result">check extract result</button>
+     <button id="export_config">export config</button>
+</div>
+<div class="pe-row">
+    <a id="downloadfile"> </a>
+</div>
+<div class="pe-row">
+    <span id="cur_url"></span>
+</div>
+
+<script src="js/jquery-3.7.1.js"></script>
+<script src="js/js-yaml.min.js"></script>
+<script src="js/sidepanel.js"></script>
+<link rel="stylesheet" type="text/css" href="css/sidepanel.css">
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Page Extractor",
+  "version": "1.0",
+  "description": "Extract page with xpath, css, re, etc.",
+  "icons": {
+    "16": "img/icon-16.png",
+    "48": "img/icon-48.png",
+    "128": "img/icon-128.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "js/content-script.js"
+      ],
+      "css": [
+        "css/content.css"
+      ],
+      "matches": [
+        "*://*/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "host_permissions": ["*://*/*"],
+  "permissions": [
+    "sidePanel",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ]
+}
