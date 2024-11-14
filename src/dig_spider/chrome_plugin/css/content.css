@@ -7,7 +7,7 @@
 }
 
 .pe-items{
-    height: 600px;
+    height: 550px;
     width: calc(100% - 15px);
     overflow:auto;
 }

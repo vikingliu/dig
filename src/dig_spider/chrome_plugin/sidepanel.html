@@ -8,8 +8,8 @@
 <div class="pe-block">
     <span>Page Type: </span>
     <select class="pe-page-type">
-        <option>List Page</option>
-        <option>Detail Page</option>
+        <option name="List Page">List Page</option>
+        <option name="Detail Page">Detail Page</option>
     </select>
 </div>
 
@@ -27,10 +27,10 @@
     </div>
     <div class="pe-row">
         <select class="pe-type">
-            <option>xpath</option>
-            <option>css</option>
-            <option>jpath</option>
-            <option>re</option>
+            <option name="xpath">xpath</option>
+            <option name="css">css</option>
+            <option name="jpath">jpath</option>
+            <option name="re">re</option>
         </select>
         <input class="pe-path"/>
     </div>
@@ -41,10 +41,10 @@
     </div>
     <div class="pe-row">
         <select class="pe-type">
-            <option>xpath</option>
-            <option>css</option>
-            <option>jpath</option>
-            <option>re</option>
+            <option name="xpath">xpath</option>
+            <option name="css">css</option>
+            <option name="jpath">jpath</option>
+            <option name="re">re</option>
         </select>
         <input class="pe-path"/>
     </div>
@@ -67,10 +67,10 @@
             </div>
             <div class="pe-row">
                 <select class="pe-type">
-                    <option>xpath</option>
-                    <option>css</option>
-                    <option>jpath</option>
-                    <option>re</option>
+                    <option name="xpath">xpath</option>
+                    <option name="css">css</option>
+                    <option name="jpath">jpath</option>
+                    <option name="re">re</option>
                 </select>
                 <input class="pe-path"/>
             </div>
@@ -88,7 +88,8 @@
 
 <div class="pe-block pe-block-center">
     <button id="show_extract_result">check extract result</button>
-     <button id="export_config">export config</button>
+    <button id="export_config">export config</button>
+    <button id="manage">manage</button>
 </div>
 <div class="pe-row">
     <a id="downloadfile"> </a>
@@ -99,6 +100,7 @@
 
 <script src="js/jquery-3.7.1.js"></script>
 <script src="js/js-yaml.min.js"></script>
+<script src="js/pe-config.js"></script>
 <script src="js/sidepanel.js"></script>
 <link rel="stylesheet" type="text/css" href="css/sidepanel.css">
 </body>

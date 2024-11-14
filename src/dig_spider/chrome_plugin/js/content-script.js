@@ -24,7 +24,7 @@ if (extract_result == null) {
     );
 }
 
-let ERROR_HEAD = '「PATH ERROR!!!」'
+var ERROR_HEAD = '「PATH ERROR!!!」'
 
 function show_extract_result(config) {
     console.log(config);

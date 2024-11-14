@@ -1,0 +1,67 @@
+.row {
+    border: 1px solid #000;
+    margin: 10px 2px;
+    padding: 5px;
+    display: inline-block;
+    vertical-align: top;
+
+}
+
+.pe-key {
+    width: 400px;
+    padding: 5px;
+}
+
+.search-key {
+    width: 600px;
+    padding: 10px;
+}
+
+#search {
+    padding: 10px;
+    margin: 2px 10px;
+}
+
+button {
+    padding: 5px;
+}
+
+.search {
+    margin: 10px 2px;
+    padding: 5px;
+    text-align: center;
+}
+
+
+pre {
+    outline: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+    text-align: left;
+}
+
+.string {
+    color: green;
+}
+
+/*字符串的样式*/
+.number {
+    color: darkorange;
+}
+
+/*数字的样式*/
+.boolean {
+    color: blue;
+}
+
+/*布尔型数据的样式*/
+.null {
+    color: magenta;
+}
+
+/*null值的样式*/
+.key {
+    color: red;
+}
+
+/*key值的样式*/

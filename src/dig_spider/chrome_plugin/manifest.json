@@ -14,7 +14,8 @@
   "content_scripts": [
     {
       "js": [
-        "js/content-script.js"
+        "js/content-script.js",
+        "js/jsonpath.min.js"
       ],
       "css": [
         "css/content.css"
@@ -35,6 +36,8 @@
     "sidePanel",
     "activeTab",
     "scripting",
-    "tabs"
+    "tabs",
+    "storage",
+    "unlimitedStorage"
   ]
 }
