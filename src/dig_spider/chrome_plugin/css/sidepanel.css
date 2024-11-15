@@ -2,7 +2,7 @@
     border: 1px;
     border-color: black;
     border-style: double;
-    margin: 15px 2px;
+    margin: 8px 2px;
     padding: 5px;
     width: calc(100% - 10px);
     max-width: 600px;
@@ -44,7 +44,7 @@
     width: calc(100% - 104px);
     min-width: 180px;
     padding: 5px;
-    margin: 5px 2px;
+    margin: 2px;
 }
 
 #url_patterns {

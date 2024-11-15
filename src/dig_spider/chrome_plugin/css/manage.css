@@ -1,15 +1,18 @@
-.row {
+.row, .pe-keys, .pe-config {
     border: 1px solid #000;
     margin: 10px 2px;
     padding: 5px;
     display: inline-block;
     vertical-align: top;
-
 }
 
 .pe-key {
     width: 400px;
     padding: 5px;
+}
+.selected{
+    /*color: green;*/
+    background-color: green;
 }
 
 .search-key {
@@ -24,12 +27,12 @@
 
 button {
     padding: 5px;
+    margin: 2px;
 }
 
 .search {
     margin: 10px 2px;
     padding: 5px;
-    text-align: center;
 }
 
 

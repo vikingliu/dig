@@ -26,6 +26,7 @@ extract:
       page_type: list_page
       url_patterns:
         - https://allsharktankproducts.com/sharktankproducts/season-\d+-products/
+        - https://allsharktankproducts.com/shark-tank-products/
       list_rule: xpath{//*[@id="tdi_15"]/div}
       next_page_rule: xpath{//div/span[@class="current"]/following-sibling::a[1]/@href}
       item_rules:
@@ -38,7 +39,7 @@ extract:
   - page:
       page_type: detail_page
       url_patterns:
-        - https://allsharktankproducts.com/shark-tank-products
+        - https://allsharktankproducts.com/shark-tank-products-
         - https://allsharktankproducts.com/pet-care/
         - https://allsharktankproducts.com/apps/
         - https://allsharktankproducts.com/service/

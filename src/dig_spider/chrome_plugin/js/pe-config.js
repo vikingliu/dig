@@ -51,7 +51,7 @@ function add_rule() {
             $(this).parent().parent().detach();
         }
     });
-    $('select, input').change(function (e) {
+    $('select, input, textarea').change(function (e) {
         save_config()
     });
     return item_urle
@@ -81,10 +81,9 @@ function download_config(text, name, type = 'text/plain') {
 function load_config(url, tabid) {
     chrome.scripting.executeScript({
         target: {tabId: tabid},
-        files: ["js/content-script.js", "js/jsonpath.min.js", "css/content.css"]
+        files: ["js/content-script.js", "js/jsonpath-0.8.0.js", "css/content.css"]
     });
-    $('#cur_url').text(url);
-    $('#show_extract_result').text("check extract result")
+    // $('#cur_url').text(url);
     $('#downloadfile').hide()
     sendMessageToActiveTab({cmd: "hidden"})
     chrome.storage.local.getKeys().then((keys) => {
@@ -107,29 +106,33 @@ function load_config(url, tabid) {
 }
 
 function clear_config() {
+    let default_rule = {name: "", path_type: "xpath", path: "", funcs: ""}
     let config = {
         page_type: "List Page",
         url_patterns: [],
-        list_rule: {name: "", path_type: "xpath", path: "", funcs: ""},
-        next_page_rule: {name: "", path_type: "xpath", path: "", funcs: ""},
-        item_rules: [{name: "", path_type: "xpath", path: "", funcs: ""}]
+        list_rule: default_rule,
+        next_page_rule: default_rule,
+        item_rules: [default_rule]
     }
     show_config(config)
 }
 
 function show_config(config) {
     function set_rule(item, rule) {
-        if ($(item).find('input.pe-name').length > 0) {
-            $(item).find('input.pe-name').val(rule.name);
-        } else {
-            $(item).find('.pe-name').text(rule.name);
+        if (rule.name) {
+            if ($(item).find('input.pe-name').length > 0) {
+                $(item).find('input.pe-name').val(rule.name);
+            } else {
+                $(item).find('.pe-name').text(rule.name);
+            }
         }
-        $(item).find('.pe-type option[name="' + rule.path_type + '"]').attr("selected", "selected");
+        $(item).find('.pe-type option').attr("selected", false)
+        $(item).find('.pe-type option[name="' + rule.path_type + '"]').attr("selected", true);
         $(item).find('.pe-path').val(rule.path);
         $(item).find('.pe-funcs').val(rule.funcs);
     }
-
-    $('.pe-page-type option[name="' + config.page_type + '"]').attr("selected", "selected");
+     $('.pe-page-type option').attr("selected", false);
+    $('.pe-page-type option[name="' + config.page_type + '"]').attr("selected", true);
     $('#url_patterns').val(config.url_patterns.join('\n'))
     if (config.page_type === "List Page") {
         $("#list_rule").show()
@@ -140,22 +143,19 @@ function show_config(config) {
         $("#list_rule").hide()
         $("#next_page_rule").hide()
     }
-    let item_rules = []
     let old_item_rules = $('.item-rules .item-rule')
     if (old_item_rules.length < config.item_rules.length) {
         for (let i = 0; i < config.item_rules.length - old_item_rules.length; i++) {
             add_rule()
         }
-        item_rules = $('.item-rules .item-rule')
     } else if (old_item_rules.length > 1) {
         for (let i = config.item_rules.length; i < old_item_rules.length; i++) {
             $(old_item_rules[i]).detach()
         }
-        item_rules = old_item_rules
     }
-    for (let i = 0; i < item_rules.length; i++) {
-        set_rule(item_rules[i], config.item_rules[i])
-    }
+    $('.item-rules .item-rule').each(function (i, item){
+        set_rule(item, config.item_rules[i])
+    });
 }
 
 
@@ -163,6 +163,7 @@ function get_config_yaml(config) {
     function convert_rule(rule) {
         return rule.path_type + '{' + rule.path + '}' + rule.funcs
     }
+
     config['list_rule'] = convert_rule(config['list_rule'])
     config['next_page_rule'] = convert_rule(config['next_page_rule'])
     let item_rules = {}

@@ -1,16 +1,27 @@
-chrome.storage.local.getKeys().then((keys) => {
-    search(keys)
-    $('#search_count').text("find keys: " + keys.length)
-});
+function search_all() {
+    chrome.storage.local.getKeys().then((keys) => {
+        search(keys)
+    });
+}
+
 
 function search(keys) {
     chrome.storage.local.get(keys).then((result) => {
-        keys.forEach(function (key, i) {
-            add_record(key, result[key])
-        });
+        add_records(keys, result)
+        $('#search_count').text("find keys: " + Object.keys(result).length)
         $('.delete-key').click(function (e) {
             let key = $(this).attr('key')
             delete_key(key)
+        });
+        $('.pe-type:first').attr("class", "pe-type selected")
+        $('.pe-type').click(function (e) {
+            let key = $(this).attr('key')
+            $('.pe-type').attr("class","pe-type")
+             $(this).attr("class", "pe-type selected")
+            chrome.storage.local.get(key).then((result) => {
+                let config = syntaxHighlight(JSON.stringify(result[key], null, 2))
+                $('.pe-config pre').html(config)
+            });
         });
     });
 }
@@ -23,18 +34,39 @@ function delete_key(key) {
     }
 }
 
-function add_record(key, config) {
+function add_records(keys, result) {
+    let keys_html = ''
+    let domain_keys = {}
+    keys.forEach(function (key, i) {
+        let domain = key.split('/')[2]
+        if (!(domain in domain_keys)) {
+            domain_keys[domain] = ''
+        }
+
+        let key_html = ''
+            + '<div>'
+            + '   &nbsp; -<input class="pe-key" disabled value="' + key + '" />'
+            + '   <button class="delete-key" key="' + key + '">delete</button>'
+            + '   <button class="pe-type"  key="' + key + '">' + result[key].page_type + '</button>'
+            + '</div>'
+        domain_keys[domain] += key_html
+    });
+    for (let domain in domain_keys) {
+        keys_html += '<span>' + domain + '</span>'
+        keys_html += domain_keys[domain]
+        keys_html += '<hr />'
+    }
+    let config_html = ''
+        + '  <pre>'
+        + syntaxHighlight(JSON.stringify(result[keys[0]], null, 2))
+        + ' </pre>'
+
     let html = ''
         + '<div class="row">'
-        + '  <div>'
-        + '    <input class="pe-key" value="' + key + '" />'
-        + '    <button class="delete-key" key="' + key + '" onclick="delete_key(\'' + key + '\')">delete</button>'
-        + '  </div>'
-        + '    <div><pre>' + syntaxHighlight(JSON.stringify(config, null, 2)) + '</pre></div>'
+        + '  <div class="pe-keys">' + keys_html + '  </div>'
+        + '  <div class="pe-config">' + config_html + '  </div>'
         + '</div>'
-    $('.content-list').append(html)
-
-
+    $('.content-list').html(html)
 }
 
 $(document).ready(function () {
@@ -43,7 +75,8 @@ $(document).ready(function () {
         if (key) {
             $('.content-list').html('')
             search([key])
-            $('#search_count').text('')
+        } else {
+            search_all()
         }
     });
 });
@@ -72,3 +105,5 @@ function syntaxHighlight(json) {
         }
     );
 }
+
+search_all()

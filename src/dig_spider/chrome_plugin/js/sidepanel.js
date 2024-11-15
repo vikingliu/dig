@@ -20,24 +20,16 @@ $(document).ready(function () {
     });
 
     $('#show_extract_result').click(function (e) {
-        var value = $('#show_extract_result').text()
-        if (value === 'check extract result') {
-            $('#show_extract_result').text("hidden extract result")
-            sendMessageToActiveTab({cmd: "show", config: get_config()})
-        } else {
-            $('#show_extract_result').text("check extract result")
-            sendMessageToActiveTab({cmd: "hidden"})
-        }
+        sendMessageToActiveTab({cmd: "show", config: get_config()})
     });
 
     $('#export_config').click(function (e) {
-        let config = get_config()
-        let text = get_config_yaml(config)
+        let text = get_config_yaml(get_config())
         let file_name = $('#cur_url').text().split('/')[2] + '.yaml'
         download_config(text, file_name)
     });
 
-    $('select, input').change(function (e) {
+    $('select, input, textarea').change(function (e) {
         save_config()
     });
 

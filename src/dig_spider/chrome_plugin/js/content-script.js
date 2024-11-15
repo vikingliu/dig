@@ -22,6 +22,10 @@ if (extract_result == null) {
             return false
         }
     );
+    var popupContainer = document.getElementById("popupContainer");
+    popupContainer.addEventListener("click", function (e) {
+        hidden_extract_result();
+    })
 }
 
 var ERROR_HEAD = '「PATH ERROR!!!」'
@@ -65,7 +69,8 @@ function show_extract_result(config) {
     function get_list_result(list_rule, item_rules) {
         let html = ''
         let items = []
-        let list_result = extract_result_by_rule(list_rule, document);
+        let response = get_response(list_rule)
+        let list_result = extract_result_by_rule(list_rule, response);
         if (list_result.length > 0) {
             list_result.forEach(function (value, index) {
                 items.push(extract_item_result(item_rules, value))
@@ -79,8 +84,8 @@ function show_extract_result(config) {
                 html += '    <div class="pe-content"> Find ' + list_result.length + ' items</div>'
             html += '  </div>'
         } else {
-            let item = extract_item_result(item_rules, document)
-            console.log("only one: ", item)
+            response = get_response(item_rules[0])
+            let item = extract_item_result(item_rules, response)
             if (Object.keys(item).length > 0) items.push(item)
         }
         if (items.length > 0) {
@@ -92,13 +97,11 @@ function show_extract_result(config) {
                     + '  <div class="pe-row pe-item">'
                     + '   <div> item - ' + (index + 1) + '</div>'
                 for (let key in value) {
+                    html += '   <div class="pe-name">' + key + '</div>'
                     let error_class = ''
-                    html += ''
-                        + '   <div class="pe-name">' + key + '</div>'
-                    if (value[key].length > 0 && value[key][0].startsWith(ERROR_HEAD))
+                    if (value[key].length > 0 && typeof value[key][0] === 'string' && value[key][0].startsWith(ERROR_HEAD))
                         error_class = 'pe-error'
                     html += '   <div class="pe-content ' + error_class + '">' + htmlencode(value[key]) + '</div>'
-
                 }
                 html += ' </div>'
             });
@@ -134,7 +137,8 @@ function show_extract_result(config) {
             html += ''
                 + '  <div class="pe-row">'
                 + '    <div class="pe-name">Next Page Url</div>'
-            let next_page_url = extract_result_by_rule(next_page_rule, document)
+            let response = get_response(next_page_rule)
+            let next_page_url = extract_result_by_rule(next_page_rule, response)
             let error_class = ''
             if (next_page_url.length > 0 && next_page_url[0].startsWith(ERROR_HEAD))
                 error_class = 'pe-error'
@@ -157,6 +161,20 @@ function show_extract_result(config) {
     popupContainer.style.display = "block";
 }
 
+function get_response(rule) {
+    if (rule.path_type === 'xpath' || rule.path_type === 'css') {
+        return document
+    } else if (rule.path_type === 'jpath') {
+        let pre = document.getElementsByTagName('pre')
+        if (pre.length > 0) {
+            return JSON.parse(pre[0].innerText)
+        }
+        return JSON.parse(document.body.innerText)
+    } else if (rule.path_type === 're') {
+        return document.body.innerHTML
+    }
+    return document
+}
 
 function extract_result_by_rule(rule, response = document) {
     if (rule.path === '') return []
@@ -187,9 +205,17 @@ function extract_result_by_rule(rule, response = document) {
                 result.push(value);
             });
         } else if (rule.path_type === 'jpath') {
-
+            return jsonPath(response, rule.path)
         } else if (rule.path_type === 're') {
-
+            let pattern = RegExp(rule.path, 'gim')
+            do {
+                let match = pattern.exec(response)
+                if (match && match.length > 1) {
+                    result.push(match[1])
+                } else {
+                    break
+                }
+            } while (true)
         }
     } catch (error) {
         result.push(ERROR_HEAD + error.message)

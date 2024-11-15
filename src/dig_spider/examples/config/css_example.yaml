@@ -21,7 +21,8 @@ extract:
       page_type: list_page
       url_patterns:
         - https://allsharktankproducts.com/sharktankproducts/season-\d+-products/
-      list_rule: css{div#tdi_15>div}
+        - https://allsharktankproducts.com/shark-tank-products/
+      list_rule: css{#tdi_15>div,#tdi_16>div}
       next_page_rule: css{div.page-nav span.current + a::attr(href)}
       item_rules:
         url: css{div.td-module-meta-info h3 a::attr(href)}
@@ -33,7 +34,7 @@ extract:
   - page:
       page_type: detail_page
       url_patterns:
-        - https://allsharktankproducts.com/shark-tank-
+        - https://allsharktankproducts.com/shark-tank-products-
         - https://allsharktankproducts.com/pet-care/
         - https://allsharktankproducts.com/apps/
         - https://allsharktankproducts.com/service/
