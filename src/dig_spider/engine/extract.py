@@ -1,5 +1,7 @@
 # coding=utf-8
 import logging
+import re
+
 import jsonpath
 
 from scrapy.http.response.html import HtmlResponse
@@ -59,7 +61,8 @@ class ExtractEngine(object):
         elif rule.path_type == 'xpath' and rule.path:
             return response.xpath(rule.path)
         elif rule.path_type == 're' and rule.path:
-            return eval(rule.path)
+            text = response if type(response) == str else response.text
+            return re.findall(rule.path, text)
         elif rule.path_type == 'json' and rule.path:
             if type(response) != dict:
                 response = response.json()

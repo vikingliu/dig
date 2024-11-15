@@ -4,17 +4,18 @@ start_urls:
 allowed_domains:
   - typicode.com
 
+code_file: json.py
+
 extract:
   - page:
       page_type: feed
       url_patterns:
         - https://jsonplaceholder.typicode.com/todos/
       item_rules:
-        userid: re{re.findall('userId":\s(\d+)', response.text)[0]}
-        id: re{re.findall('id":\s(\d+)', response.text)[0]}
-        title: re{re.findall('title\":\s"(.*)\"', response.text)[0]}
-        completed: re{re.findall('completed":\s(.*)', response.text)[0]}
-      code_file: json.py
+        userid: re{userId":\s(\d+)}
+        id: re{id":\s(\d+)}
+        title: re{title\":\s"(.*)\"}
+        completed: re{completed":\s(.*)}
       code: "
       for result in results: \n
           \t print(result['userid'])\n

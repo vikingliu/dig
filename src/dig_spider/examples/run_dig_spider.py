@@ -9,7 +9,7 @@ cwd = os.path.dirname(__file__)
 class ItemPipeline(DigEnginePipeline):
     def process_item(self, item, spider):
         super().process_item(item, spider)
-        print("ItemPipeline: ", item)
+        # print("ItemPipeline: ", item)
         # spider.config
         # save and send to kafka
         return item
@@ -25,8 +25,9 @@ class DownloaderMiddleware(DigEngineDownloaderMiddleware):
 
 def run_config():
     crawl_pages(
-        config=cwd + "/config/css_example.yaml",
-        start_urls=["https://allsharktankproducts.com/sharktankproducts/season-12-products/"],
+        # config=cwd + "/config/css_example.yaml",
+        config=cwd + "/config/re_example.yaml",
+        # start_urls=["https://allsharktankproducts.com/sharktankproducts/season-12-products/"],
         # start_urls=["https://allsharktankproducts.com/shark-tank-products-arts/da-vinci-eye-ar-drawing-tools/"],
         # start_urls = "a.txt",
         # extract_link=True,
